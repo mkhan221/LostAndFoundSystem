@@ -24,7 +24,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/qrcodes:
+ * /qrcodes:
  *   post:
  *     summary: Create a new QR code
  *     tags: [QrCodes]
@@ -54,7 +54,7 @@ router.post("/", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/qrcodes/{id}:
+ * /qrcodes/{id}:
  *   get:
  *     summary: Get a QR code by ID
  *     tags: [QrCodes]
@@ -85,7 +85,7 @@ router.get("/:id", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/qrcodes:
+ * /qrcodes:
  *   put:
  *     summary: Update a QR code
  *     tags: [QrCodes]
@@ -113,7 +113,7 @@ router.put("/", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/qrcodes/{id}:
+ * /qrcodes/{id}:
  *   delete:
  *     summary: Delete a QR code by ID
  *     tags: [QrCodes]
@@ -134,7 +134,7 @@ router.delete("/:id", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/qrcodes:
+ * /qrcodes:
  *   get:
  *     summary: Get all QR codes
  *     tags: [QrCodes]

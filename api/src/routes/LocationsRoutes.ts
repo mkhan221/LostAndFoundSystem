@@ -36,7 +36,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/locations:
+ * /locations:
  *   get:
  *     summary: Get all locations
  *     tags: [Locations]
@@ -67,7 +67,7 @@ router.get("/", async (_req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/locations/{id}:
+ * /locations/{id}:
  *   get:
  *     summary: Get a location by ID
  *     tags: [Locations]
@@ -107,7 +107,7 @@ router.get("/:id", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/locations:
+ * /locations:
  *   post:
  *     summary: Create a new location
  *     tags: [Locations]
@@ -149,7 +149,7 @@ router.post("/", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/locations:
+ * /locations:
  *   put:
  *     summary: Update an existing location
  *     tags: [Locations]
@@ -193,7 +193,7 @@ router.put("/", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/locations/{id}:
+ * /locations/{id}:
  *   delete:
  *     summary: Delete a location by ID
  *     tags: [Locations]

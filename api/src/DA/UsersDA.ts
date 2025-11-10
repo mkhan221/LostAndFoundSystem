@@ -43,7 +43,7 @@ export class UsersDA
         }
 
         const query = `
-            CALL fnUpdateUsers($1, $2, $3, $4, $5, $6, $7)
+            SELECT * FROM fnUpdateUsers($1, $2, $3, $4, $5, $6, $7)
         `;
         const values = [
             user.userid,
@@ -60,7 +60,7 @@ export class UsersDA
 
     static async delete(userid: number): Promise<void>
     {
-        const query = `CALL fnDeleteUsers($1)`;
+        const query = `SELECT * FROM fnDeleteUsers($1)`;
         await pool.query(query, [userid]);
     }
 }

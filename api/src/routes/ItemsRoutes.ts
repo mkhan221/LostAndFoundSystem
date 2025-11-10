@@ -6,6 +6,13 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Items
+ *   description: API for managing items
+ */
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     Item:
@@ -35,7 +42,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/items:
+ * /items:
  *   post:
  *     summary: Create a new item
  *     tags: [Items]
@@ -74,7 +81,7 @@ router.post("/", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/items/{id}:
+ * /items/{id}:
  *   get:
  *     summary: Get an item by ID
  *     tags: [Items]
@@ -112,7 +119,7 @@ router.get("/:id", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/items:
+ * /items:
  *   put:
  *     summary: Update an existing item
  *     tags: [Items]
@@ -125,22 +132,19 @@ router.get("/:id", async (req: Request, res: Response) =>
  *     responses:
  *       200:
  *         description: Item updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
  *       400:
  *         description: ItemId is required
+ *       500:
+ *         description: Internal server error
  */
 router.put("/", async (req: Request, res: Response) =>
 {
     try
     {
         const item: Item = req.body;
-        if (!item.itemid) return res.status(400).json({ message: "ItemId is required" });
+        if (!item.itemid)
+            return res.status(400).json({ message: "ItemId is required" });
+
         await ItemsDA.update(item);
         res.json({ message: "Item updated successfully" });
     } catch (err)
@@ -152,7 +156,7 @@ router.put("/", async (req: Request, res: Response) =>
 
 /**
  * @swagger
- * /api/items:
+ * /items:
  *   get:
  *     summary: Get all items
  *     tags: [Items]
@@ -179,10 +183,9 @@ router.get("/", async (_req: Request, res: Response) =>
     }
 });
 
-
 /**
  * @swagger
- * /api/items/{id}:
+ * /items/{id}:
  *   delete:
  *     summary: Delete an item by ID
  *     tags: [Items]
@@ -196,13 +199,8 @@ router.get("/", async (_req: Request, res: Response) =>
  *     responses:
  *       200:
  *         description: Item deleted successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
+ *       500:
+ *         description: Internal server error
  */
 router.delete("/:id", async (req: Request, res: Response) =>
 {

@@ -6,6 +6,51 @@ const router = express.Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - firstname
+ *         - lastname
+ *         - usertype
+ *         - email
+ *         - password
+ *       properties:
+ *         userid:
+ *           type: integer
+ *           description: Auto-generated unique identifier for the user
+ *           example: 1
+ *         firstname:
+ *           type: string
+ *           description: The user's first name
+ *           example: John
+ *         lastname:
+ *           type: string
+ *           description: The user's last name
+ *           example: Doe
+ *         usertype:
+ *           type: string
+ *           description: The type of user
+ *           enum: [Student, Staff, Admin]
+ *           example: Student
+ *         email:
+ *           type: string
+ *           description: User's email address
+ *           example: johndoe@example.com
+ *         password:
+ *           type: string
+ *           description: User's password (hashed or plain for dev)
+ *           example: password123
+ *         phonenumber:
+ *           type: string
+ *           nullable: true
+ *           description: Optional phone number
+ *           example: "+1-555-123-4567"
+ */
+
+/**
+ * @swagger
  * tags:
  *   name: Users
  *   description: API for managing users
@@ -52,6 +97,12 @@ router.post("/", async (req: Request, res: Response) =>
  *     responses:
  *       200:
  *         description: List of all users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
  *       500:
  *         description: Internal server error
  */
@@ -84,6 +135,10 @@ router.get("/", async (_req: Request, res: Response) =>
  *     responses:
  *       200:
  *         description: User data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
  *       500:
