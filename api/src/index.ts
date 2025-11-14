@@ -7,12 +7,15 @@ import UsersRoutes from "./routes/UsersRoutes";
 import UserItemsRoutes from "./routes/UserItemsRoutes";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import cors from 'cors';
+
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 // Swagger setup
