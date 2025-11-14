@@ -3,6 +3,7 @@ import { HomeComponent } from './features/home/home.component';
 import { ItemsService } from './services/items.service';
 import { provideHttpClient } from '@angular/common/http';
 import { SignInComponent } from './features/sign-in/sign-in.component';
+import { ItemDetailComponent } from './features/item-detail/item-detail.component';
 
 export const routes: Routes = [
     {
@@ -11,5 +12,6 @@ export const routes: Routes = [
         providers: [ItemsService, provideHttpClient()]
 
     },
-    { path: 'sign-in', component: SignInComponent }
+    { path: 'sign-in', component: SignInComponent },
+    { path: 'item/:id', component: ItemDetailComponent }
 ];

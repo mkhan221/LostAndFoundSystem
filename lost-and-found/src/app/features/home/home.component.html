@@ -1,22 +1,54 @@
 <div class="home-container">
-    <div class="home-header">
-        <h2>Recently Posted Items</h2>
-        <a routerLink="/sign-in" class="sign-in-link">Sign In</a>
-    </div>
 
-    <div *ngIf="loading">Loading items…</div>
+    <!-- Header -->
+    <header class="home-header">
+        <h1>Lost & Found Dashboard</h1>
 
-    <div *ngIf="!loading && items.length === 0">
-        No items posted yet.
-    </div>
-
-    <div class="items-grid" *ngIf="items.length > 0">
-        <div class="item-card" *ngFor="let item of items">
-            <img *ngIf="item.imagepath" [src]="item.imagepath" alt="Item image" />
-            <h3>{{ item.description }}</h3>
-            <p><strong>Category:</strong> {{ item.category }}</p>
-            <p><strong>Status:</strong> {{ item.status }}</p>
-            <button class="view-btn">View Details</button>
+        <div class="user-actions">
+            <!-- Sign In / Sign Out -->
+            <a *ngIf="!currentUser" routerLink="/sign-in" class="sign-in-link">Sign In</a>
+            <div *ngIf="currentUser" class="logged-in-info">
+                <span>Welcome, {{ currentUser.firstname }}!</span>
+                <button (click)="signOut()" class="sign-out-btn">Sign Out</button>
+            </div>
         </div>
-    </div>
+    </header>
+
+    <!-- Action Buttons for Logged-in Users -->
+    <section *ngIf="currentUser" class="home-actions">
+        <button routerLink="/add-item" class="action-btn">Add Lost Item</button>
+        <button routerLink="/claim-item" class="action-btn">Claim Lost Item</button>
+        <button routerLink="/my-items" class="action-btn">My Posted Items</button>
+    </section>
+
+    <!-- Items Section -->
+    <section class="items-section">
+        <h2>Recently Posted Items</h2>
+
+        <!-- Loading indicator -->
+        <div *ngIf="loading" class="loading">Loading items…</div>
+
+        <!-- No items message -->
+        <div *ngIf="!loading && items.length === 0" class="no-items">
+            No items posted yet.
+        </div>
+
+        <!-- Items Grid -->
+        <div *ngIf="items.length > 0" class="items-grid">
+            <div class="item-card" *ngFor="let item of items">
+                <div class="item-image">
+                    <img *ngIf="item.imagepath" [src]="item.imagepath" alt="Item image" />
+                </div>
+                <div class="item-info">
+                    <h3>{{ item.description }}</h3>
+                    <p><strong>Category:</strong> {{ item.category }}</p>
+                    <p><strong>Status:</strong> {{ item.status }}</p>
+                </div>
+                <div class="item-actions">
+                    <button [routerLink]="['/item', item.itemid]" class="view-btn">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </div>

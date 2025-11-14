@@ -33,9 +33,20 @@ export class UsersService
     return this.getAll().pipe(
       map(users =>
       {
+        console.table(users);
         const user = users.find(u => u.email === email && u.password === password);
         return user ?? null;
       })
     );
   }
+
+  // src/app/services/items.service.ts
+  claim(itemId: number, userId: number): Observable<any>
+  {
+    // Call UserItems API to mark as found / associate user
+    const url = `http://localhost:3000/useritems/${itemId}`;
+    const body = { isfound: true, claimedbyuserid: userId };
+    return this.http.put(url, body);
+  }
+
 }

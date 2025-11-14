@@ -1,0 +1,22 @@
+<div class="item-detail-container" *ngIf="!loading && item">
+    <h2>{{ item.description }}</h2>
+
+    <div class="item-detail-main">
+        <div class="item-image">
+            <img *ngIf="item.imagepath" [src]="item.imagepath" alt="Item image" />
+        </div>
+        <div class="item-info">
+            <p><strong>Category:</strong> {{ item.category }}</p>
+            <p><strong>Status:</strong> {{ item.status }}</p>
+            <p><strong>Date Posted:</strong> {{ item.dateposted | date:'medium' }}</p>
+        </div>
+    </div>
+
+    <div class="item-actions" *ngIf="currentUser && item.status !== 'Found'">
+        <button (click)="claimItem()" class="claim-btn">Claim Item</button>
+    </div>
+
+    <div *ngIf="claimMessage" class="claim-message">{{ claimMessage }}</div>
+</div>
+
+<div *ngIf="loading">Loading item...</div>
