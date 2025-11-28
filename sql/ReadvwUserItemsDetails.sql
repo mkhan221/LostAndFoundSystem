@@ -47,7 +47,6 @@ RETURNS TABLE (
     UserItemDatePosted TIMESTAMP,
     IsFound BOOLEAN,
     
-    -- Item details
     ItemId INT,
     ItemDescription TEXT,
     ItemCategory VARCHAR,
@@ -55,17 +54,14 @@ RETURNS TABLE (
     ItemStatus VARCHAR,
     ItemDatePosted TIMESTAMP,
     
-    -- Location details
     LocationId INT,
     LocationBuilding VARCHAR,
     LocationDescription TEXT,
     
-    -- QR Code info
     QrCodeId INT,
     QrCodePath VARCHAR,
     QrCodeCreatedOn TIMESTAMP,
     
-    -- Posted by user details
     PostedByUserId INT,
     PostedByFirstName VARCHAR,
     PostedByLastName VARCHAR,
@@ -76,7 +72,7 @@ RETURNS TABLE (
 BEGIN
     RETURN QUERY
     SELECT *
-    FROM vwUserItemsDetails
-    WHERE UserItemId = p_UserItemId;
+    FROM vwUserItemsDetails AS v
+    WHERE v.UserItemId = p_UserItemId;
 END;
 $$ LANGUAGE plpgsql;

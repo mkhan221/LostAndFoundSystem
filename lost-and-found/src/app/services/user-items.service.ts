@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserItem } from '../../models/UserItem';
+import { UserItemDetails } from '../../models/UserItemDetails';
 
 @Injectable({ providedIn: 'root' })
 export class UserItemsService
@@ -11,32 +12,32 @@ export class UserItemsService
 
   constructor(private http: HttpClient) { }
 
-  // Get all user-item records
-  getAll(): Observable<UserItem[]>
+  // Get all user items with details (for listing on home page)
+  getAll(): Observable<UserItemDetails[]>
   {
-    return this.http.get<UserItem[]>(this.api);
+    return this.http.get<UserItemDetails[]>(this.api);
   }
 
-  // Get a single user-item record by ID
-  get(id: number): Observable<UserItem>
+  // Get a single user item with details by ID
+  get(id: number): Observable<UserItemDetails>
   {
-    return this.http.get<UserItem>(`${this.api}/${id}`);
+    return this.http.get<UserItemDetails>(`${this.api}/${id}`);
   }
 
-  // Create a new user-item record
+  // Create a new user item (UserItem only)
   create(userItem: UserItem): Observable<any>
   {
     return this.http.post(this.api, userItem);
   }
 
-  // Update a user-item record
+  // Update an existing user item (UserItem only)
   update(userItem: UserItem): Observable<any>
   {
     if (!userItem.useritemid) throw new Error('useritemid is required for update');
     return this.http.put(`${this.api}/${userItem.useritemid}`, userItem);
   }
 
-  // Delete a user-item record
+  // Delete a user item (by useritemid)
   delete(id: number): Observable<any>
   {
     return this.http.delete(`${this.api}/${id}`);

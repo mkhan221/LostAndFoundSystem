@@ -1,18 +1,24 @@
 <div class="item-detail-container" *ngIf="!loading && item">
-    <h2>{{ item.description }}</h2>
+    <h2>{{ item.itemdescription }}</h2>
 
     <div class="item-detail-main">
         <div class="item-image">
-            <img *ngIf="item.imagepath" [src]="'http://localhost:3000' + item.imagepath">
+            <img *ngIf="item.itemimagepath" [src]="'http://localhost:3000' + item.itemimagepath">
         </div>
         <div class="item-info">
-            <p><strong>Category:</strong> {{ item.category }}</p>
-            <p><strong>Status:</strong> {{ item.status }}</p>
-            <p><strong>Date Posted:</strong> {{ item.dateposted | date:'medium' }}</p>
+            <p><strong>Category:</strong> {{ item.itemcategory }}</p>
+            <p><strong>Status:</strong> {{ item.itemstatus }}</p>
+            <p><strong>Date Posted:</strong> {{ item.useritemdateposted | date:'medium' }}</p>
+            <p><strong>Posted By:</strong> {{ item.postedbyfirstname }} {{ item.postedbylastname }}</p>
+            <p *ngIf="item.locationbuilding || item.locationdescription">
+                <strong>Location:</strong>
+                {{ item.locationbuilding ? item.locationbuilding + ', ' : '' }}
+                {{ item.locationdescription ? item.locationdescription : '' }}
+            </p>
         </div>
     </div>
 
-    <div class="item-actions" *ngIf="currentUser && item.status !== 'Found'">
+    <div class="item-actions" *ngIf="currentUser && !item.isfound">
         <button (click)="claimItem()" class="claim-btn">Claim Item</button>
     </div>
 

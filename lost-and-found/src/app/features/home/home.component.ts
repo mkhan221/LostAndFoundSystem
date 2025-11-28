@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { ItemsService } from '../../services/items.service';
-import { Item } from '../../../models/Item';
+import { UserItemsService } from '../../services/user-items.service'; // Updated service
+import { UserItemDetails } from '../../../models/UserItemDetails';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +13,11 @@ import { Item } from '../../../models/Item';
 })
 export class HomeComponent implements OnInit
 {
-  items: Item[] = [];
+  items: UserItemDetails[] = [];
   loading = true;
   currentUser: any = null;
 
-  constructor(private itemsService: ItemsService, private router: Router) { }
+  constructor(private userItemsService: UserItemsService, private router: Router) { }
 
   ngOnInit(): void
   {
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit
   loadItems(): void
   {
     this.loading = true;
-    this.itemsService.getAll().subscribe({
+    this.userItemsService.getAll().subscribe({
       next: (data) =>
       {
         this.items = data;
@@ -52,17 +52,17 @@ export class HomeComponent implements OnInit
     this.router.navigate(['/']);
   }
 
-  deleteItem(itemId: number): void
+  deleteItem(userItemId: number): void
   {
     if (!this.currentUser || this.currentUser.usertype !== 'Admin') return;
 
     if (!confirm('Are you sure you want to delete this item?')) return;
 
-    this.itemsService.delete(itemId).subscribe({
+    this.userItemsService.delete(userItemId).subscribe({
       next: () =>
       {
         // Remove item from list locally
-        this.items = this.items.filter(i => i.itemid !== itemId);
+        this.items = this.items.filter(i => i.useritemid !== userItemId);
       },
       error: (err) =>
       {

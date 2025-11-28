@@ -5,7 +5,6 @@
         <h1>Lost & Found Dashboard</h1>
 
         <div class="user-actions">
-            <!-- Sign In / Sign Out -->
             <a *ngIf="!currentUser" routerLink="/sign-in" class="sign-in-link">Sign In</a>
             <div *ngIf="currentUser" class="logged-in-info">
                 <span>Welcome, {{ currentUser.firstname }}!</span>
@@ -35,23 +34,25 @@
         <div *ngIf="items.length > 0" class="items-grid">
             <div class="item-card" *ngFor="let item of items">
                 <div class="item-image">
-                    <img *ngIf="item.imagepath" [src]="'http://localhost:3000' + item.imagepath">
+                    <img *ngIf="item.itemimagepath" [src]="'http://localhost:3000' + item.itemimagepath">
                 </div>
                 <div class="item-info">
-                    <h3>{{ item.description }}</h3>
-                    <p><strong>Category:</strong> {{ item.category }}</p>
-                    <p><strong>Status:</strong> {{ item.status }}</p>
+                    <h3>{{ item.itemdescription }}</h3>
+                    <p><strong>Category:</strong> {{ item.itemcategory }}</p>
+                    <p><strong>Status:</strong> {{ item.itemstatus }}</p>
+                    <p><strong>Posted by:</strong> {{ item.postedbyfirstname }} {{ item.postedbylastname }}</p>
+                    <p *ngIf="item.locationbuilding"><strong>Location:</strong> {{ item.locationbuilding }} - {{
+                        item.locationdescription }}</p>
                 </div>
                 <div class="item-actions">
-                    <button [routerLink]="['/item', item.itemid]" class="view-btn">View Details</button>
+                    <button [routerLink]="['/item', item.useritemid]" class="view-btn">View Details</button>
 
                     <!-- Admin-only Delete button -->
-                    <button *ngIf="currentUser?.usertype === 'Admin'" (click)="deleteItem(item.itemid!)"
+                    <button *ngIf="currentUser?.usertype === 'Admin'" (click)="deleteItem(item.useritemid!)"
                         class="delete-btn">
                         Delete
                     </button>
                 </div>
-
             </div>
         </div>
     </section>
