@@ -28,6 +28,7 @@ export class AddItemComponent
     const formData = new FormData();
     formData.append("description", this.form.description);
     formData.append("category", this.form.category);
+    formData.append("status", "Lost");
     if (this.selectedFile)
       formData.append("image", this.selectedFile);
 

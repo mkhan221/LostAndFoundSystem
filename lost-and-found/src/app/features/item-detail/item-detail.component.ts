@@ -1,10 +1,8 @@
-// src/app/features/item-detail/item-detail.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ItemsService } from '../../services/items.service';
 import { Item } from '../../../models/Item';
-import { UserItemsService } from '../../services/user-items.service';
 
 @Component({
   selector: 'app-item-detail',
@@ -21,7 +19,6 @@ export class ItemDetailComponent implements OnInit
   claimMessage = '';
 
   constructor(
-    private userItemsService: UserItemsService,
     private itemsService: ItemsService,
     private route: ActivatedRoute
   ) { }
@@ -52,11 +49,11 @@ export class ItemDetailComponent implements OnInit
   {
     if (!this.currentUser || !this.item) return;
 
-    this.userItemsService.claim(this.item.itemid!, this.currentUser.userid).subscribe({
+    this.item.status = 'Found';
+    this.itemsService.update(this.item).subscribe({
       next: () =>
       {
         this.claimMessage = 'Item successfully claimed!';
-        if (this.item) this.item.status = 'Found';
       },
       error: (err) =>
       {

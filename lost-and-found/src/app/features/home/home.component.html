@@ -17,8 +17,6 @@
     <!-- Action Buttons for Logged-in Users -->
     <section *ngIf="currentUser" class="home-actions">
         <button routerLink="/add-item" class="action-btn">Add Lost Item</button>
-        <button routerLink="/claim-item" class="action-btn">Claim Lost Item</button>
-        <button routerLink="/my-items" class="action-btn">My Posted Items</button>
     </section>
 
     <!-- Items Section -->
@@ -46,7 +44,14 @@
                 </div>
                 <div class="item-actions">
                     <button [routerLink]="['/item', item.itemid]" class="view-btn">View Details</button>
+
+                    <!-- Admin-only Delete button -->
+                    <button *ngIf="currentUser?.usertype === 'Admin'" (click)="deleteItem(item.itemid!)"
+                        class="delete-btn">
+                        Delete
+                    </button>
                 </div>
+
             </div>
         </div>
     </section>

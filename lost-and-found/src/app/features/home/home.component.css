@@ -131,3 +131,18 @@
 .view-btn:hover {
     background-color: #125ea2;
 }
+
+.delete-btn {
+    padding: 0.4rem 0.8rem;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #9a0007;
+}
