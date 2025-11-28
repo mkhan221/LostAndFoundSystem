@@ -1,8 +1,29 @@
 import express, { Request, Response } from "express";
 import { ItemsDA } from "../DA/ItemsDA";
 import { Item } from "../models/Item";
+import path from "path";
+import multer from "multer";
+import fs from "fs";
 
 const router = express.Router();
+
+/* Ensure uploads directory exists on server (works on Linux + Win) */
+const uploadDir = path.join(__dirname, "../../uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+/* Configure Multer storage (keeps original filename with timestamp) */
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadDir),
+    filename: (_req, file, cb) =>
+    {
+        const timestamp = Date.now();
+        const ext = path.extname(file.originalname);
+        cb(null, `${timestamp}${ext}`);
+    }
+});
+
+const upload = multer({ storage });
+
 
 /**
  * @swagger
@@ -40,44 +61,96 @@ const router = express.Router();
  *           description: Status of the item
  */
 
+// /**
+//  * @swagger
+//  * /items:
+//  *   post:
+//  *     summary: Create a new item
+//  *     tags: [Items]
+//  *     requestBody:
+//  *       required: true
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             $ref: '#/components/schemas/Item'
+//  *     responses:
+//  *       201:
+//  *         description: Item created successfully
+//  *         content:
+//  *           application/json:
+//  *             schema:
+//  *               type: object
+//  *               properties:
+//  *                 message:
+//  *                   type: string
+//  *                 itemId:
+//  *                   type: integer
+//  */
+// router.post("/", async (req: Request, res: Response) =>
+// {
+//     try
+//     {
+//         const item: Item = req.body;
+//         const newId = await ItemsDA.create(item);
+//         res.status(201).json({ message: "Item created", itemId: newId });
+//     } catch (err)
+//     {
+//         console.error(err);
+//         res.status(500).json({ error: "Failed to create item" });
+//     }
+// });
+
 /**
  * @swagger
  * /items:
  *   post:
- *     summary: Create a new item
+ *     summary: Create an item with optional image upload
  *     tags: [Items]
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/Item'
+ *             type: object
+ *             properties:
+ *               description:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [Lost, Found, Returned]
+ *               image:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Item created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 itemId:
- *                   type: integer
  */
-router.post("/", async (req: Request, res: Response) =>
+router.post("/", upload.single("image"), async (req: Request, res: Response) =>
 {
     try
     {
-        const item: Item = req.body;
+        const { description, category, status } = req.body;
+
+        const item: Item = {
+            description,
+            category,
+            status,
+            imagepath: req.file ? `/uploads/${req.file.filename}` : undefined,
+            dateposted: new Date()
+        };
+
         const newId = await ItemsDA.create(item);
         res.status(201).json({ message: "Item created", itemId: newId });
+
     } catch (err)
     {
         console.error(err);
         res.status(500).json({ error: "Failed to create item" });
     }
 });
+
 
 /**
  * @swagger

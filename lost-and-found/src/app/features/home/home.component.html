@@ -37,7 +37,7 @@
         <div *ngIf="items.length > 0" class="items-grid">
             <div class="item-card" *ngFor="let item of items">
                 <div class="item-image">
-                    <img *ngIf="item.imagepath" [src]="item.imagepath" alt="Item image" />
+                    <img *ngIf="item.imagepath" [src]="'http://localhost:3000' + item.imagepath">
                 </div>
                 <div class="item-info">
                     <h3>{{ item.description }}</h3>

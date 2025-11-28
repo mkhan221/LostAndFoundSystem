@@ -20,9 +20,9 @@ export class ItemsService
     return this.http.get<Item>(`${this.api}/${id}`);
   }
 
-  create(item: Item): Observable<any>
+  create(formData: FormData)
   {
-    return this.http.post(this.api, item);
+    return this.http.post<Item>(this.api, formData);
   }
 
   update(item: Item): Observable<any>

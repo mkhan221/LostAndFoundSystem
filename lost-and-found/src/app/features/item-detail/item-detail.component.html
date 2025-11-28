@@ -3,7 +3,7 @@
 
     <div class="item-detail-main">
         <div class="item-image">
-            <img *ngIf="item.imagepath" [src]="item.imagepath" alt="Item image" />
+            <img *ngIf="item.imagepath" [src]="'http://localhost:3000' + item.imagepath">
         </div>
         <div class="item-info">
             <p><strong>Category:</strong> {{ item.category }}</p>

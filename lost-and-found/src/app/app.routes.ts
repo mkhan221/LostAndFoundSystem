@@ -4,6 +4,7 @@ import { ItemsService } from './services/items.service';
 import { provideHttpClient } from '@angular/common/http';
 import { SignInComponent } from './features/sign-in/sign-in.component';
 import { ItemDetailComponent } from './features/item-detail/item-detail.component';
+import { AddItemComponent } from './add-item/add-item.component';
 
 export const routes: Routes = [
     {
@@ -13,5 +14,6 @@ export const routes: Routes = [
 
     },
     { path: 'sign-in', component: SignInComponent },
-    { path: 'item/:id', component: ItemDetailComponent }
+    { path: 'item/:id', component: ItemDetailComponent },
+    { path: 'add-item', component: AddItemComponent }
 ];

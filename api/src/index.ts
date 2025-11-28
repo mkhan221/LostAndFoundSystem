@@ -8,6 +8,7 @@ import UserItemsRoutes from "./routes/UserItemsRoutes";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import cors from 'cors';
+import path from "path";
 
 
 dotenv.config();
@@ -17,6 +18,9 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+// Serve uploaded images publicly
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 // Swagger setup
 const swaggerOptions = {

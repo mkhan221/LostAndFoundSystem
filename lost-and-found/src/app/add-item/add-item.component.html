@@ -1,0 +1,15 @@
+<h2>Add Lost Item</h2>
+
+<form (ngSubmit)="submitItem()">
+
+    <label>Description</label>
+    <input type="text" [(ngModel)]="form.description" name="description" required>
+
+    <label>Category</label>
+    <input type="text" [(ngModel)]="form.category" name="category" required>
+
+    <label>Photo</label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
+
+    <button type="submit">Submit</button>
+</form>
