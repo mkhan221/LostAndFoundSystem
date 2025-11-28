@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { UserItemsDA } from "../DA/UserItemsDA";
+import { UserItemsDetailsDA } from "../DA/UserItemsDetailsDA";
 import { UserItem } from "../models/UserItem";
+import { UserItemDetails } from "../models/UserItemDetails";
 
 const router = Router();
 
@@ -42,26 +44,89 @@ const router = Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     UserItemDetails:
+ *       type: object
+ *       description: Human-readable detailed user item with joined item, location, QR code, and poster info
+ *       properties:
+ *         useritemid:
+ *           type: integer
+ *         useritemdateposted:
+ *           type: string
+ *           format: date-time
+ *         isfound:
+ *           type: boolean
+ *         itemid:
+ *           type: integer
+ *         itemdescription:
+ *           type: string
+ *         itemcategory:
+ *           type: string
+ *         itemimagepath:
+ *           type: string
+ *           nullable: true
+ *         itemstatus:
+ *           type: string
+ *         itemdateposted:
+ *           type: string
+ *           format: date-time
+ *         locationid:
+ *           type: integer
+ *           nullable: true
+ *         locationbuilding:
+ *           type: string
+ *           nullable: true
+ *         locationdescription:
+ *           type: string
+ *           nullable: true
+ *         qrcodeid:
+ *           type: integer
+ *           nullable: true
+ *         qrcodepath:
+ *           type: string
+ *           nullable: true
+ *         qrcodecreatedon:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *         postedbyuserid:
+ *           type: integer
+ *         postedbyfirstname:
+ *           type: string
+ *         postedbylastname:
+ *           type: string
+ *         postedbyusertype:
+ *           type: string
+ *         postedbyemail:
+ *           type: string
+ *         postedbyphonenumber:
+ *           type: string
+ *           nullable: true
+ */
+
+/**
+ * @swagger
  * /useritems:
  *   get:
- *     summary: Get all user items
+ *     summary: Get all user items (detailed view)
  *     tags: [UserItems]
  *     responses:
  *       200:
- *         description: List of all user items
+ *         description: List of all user items with human-readable details
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/UserItem'
+ *                 $ref: '#/components/schemas/UserItemDetails'
  */
 router.get("/", async (_req, res, next) =>
 {
     try
     {
-        const userItems = await UserItemsDA.getAll();
-        res.json(userItems);
+        const userItemDetailsInstances: UserItemDetails[] = await UserItemsDetailsDA.getAll();
+        res.json(userItemDetailsInstances);
     } catch (err)
     {
         next(err);
@@ -72,7 +137,7 @@ router.get("/", async (_req, res, next) =>
  * @swagger
  * /useritems/{id}:
  *   get:
- *     summary: Get a user item by ID
+ *     summary: Get a user item by ID (detailed view)
  *     tags: [UserItems]
  *     parameters:
  *       - in: path
@@ -83,11 +148,11 @@ router.get("/", async (_req, res, next) =>
  *         description: ID of the user item
  *     responses:
  *       200:
- *         description: User item found
+ *         description: User item details found
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/UserItem'
+ *               $ref: '#/components/schemas/UserItemDetails'
  *       404:
  *         description: User item not found
  */
@@ -96,9 +161,9 @@ router.get("/:id", async (req, res, next) =>
     try
     {
         const id = parseInt(req.params.id);
-        const userItem = await UserItemsDA.read(id);
-        if (!userItem) return res.status(404).json({ message: "User item not found" });
-        res.json(userItem);
+        const userItemDetailsInstances: UserItemDetails | null = await UserItemsDetailsDA.read(id);
+        if (!userItemDetailsInstances) return res.status(404).json({ message: "User item not found" });
+        res.json(userItemDetailsInstances);
     } catch (err)
     {
         next(err);
