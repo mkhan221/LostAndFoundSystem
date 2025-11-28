@@ -8,6 +8,15 @@
         <label>Category</label>
         <input type="text" [(ngModel)]="form.category" name="category" required>
 
+        <label>Location</label>
+        <select [(ngModel)]="form.locationid" name="locationid" required>
+            <option [ngValue]="null" disabled>Select a location</option>
+            <option *ngFor="let loc of locations" [ngValue]="loc.locationid">
+                {{ loc.buildingname }}{{ loc.description ? ' - ' + loc.description : '' }}
+            </option>
+        </select>
+        <div *ngIf="loadingLocations">Loading locations…</div>
+
         <label>Photo</label>
         <input type="file" (change)="onFileSelected($event)" accept="image/*">
 

@@ -28,6 +28,12 @@ export class HomeComponent implements OnInit
     if (userStr) this.currentUser = JSON.parse(userStr);
   }
 
+  isAdmin(): boolean
+  {
+    return this.currentUser?.usertype === 'Admin';
+  }
+
+
   loadItems(): void
   {
     this.loading = true;

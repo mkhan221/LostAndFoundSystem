@@ -16,7 +16,15 @@
     <!-- Action Buttons for Logged-in Users -->
     <section *ngIf="currentUser" class="home-actions">
         <button routerLink="/add-item" class="action-btn">Add Lost Item</button>
+
+        <!-- Admin-only Locations Button -->
+        <button *ngIf="isAdmin()" routerLink="/locations" class="action-btn">
+            Add / View Locations
+        </button>
+
     </section>
+
+
 
     <!-- Items Section -->
     <section class="items-section">

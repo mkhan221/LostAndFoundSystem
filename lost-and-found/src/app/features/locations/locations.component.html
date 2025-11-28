@@ -1,0 +1,40 @@
+<div class="locations-container" *ngIf="isAdmin()">
+    <h1>Manage Locations</h1>
+
+    <!-- Add Location Form -->
+    <div class="add-location-form">
+        <input [(ngModel)]="newLocation.buildingname" placeholder="Building Name" />
+        <input [(ngModel)]="newLocation.description" placeholder="Description (optional)" />
+        <button (click)="addLocation()">Add Location</button>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="loading">Loading locations…</div>
+
+    <!-- Locations Table -->
+    <table *ngIf="locations.length > 0" class="locations-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Building Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let loc of locations">
+                <td>{{ loc.locationid }}</td>
+                <td><input [(ngModel)]="loc.buildingname" /></td>
+                <td><input [(ngModel)]="loc.description" /></td>
+                <td>
+                    <button (click)="updateLocation(loc)">Save</button>
+                    <button (click)="deleteLocation(loc.locationid!)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="!isAdmin()" class="access-denied">
+    Access denied. Only admins can manage locations.
+</div>
